@@ -1,0 +1,55 @@
+<form [formGroup]="sourceCodeUploadForm"  (ngSubmit)="onNext(sourceCodeUploadForm.value)">
+    <ul  class="wrapper">
+        <li class="form-row">
+            <label>
+            Source Code Repository:
+            </label>
+            <select class="custom-select"  formControlName="source_code_repository">
+                <option value="" disabled>Choose your source code repository</option>
+                <option *ngFor="let src of srcRepo" [ngValue]="src">{{src}}</option>
+                </select>
+        </li>
+
+        <li  class="form-row">
+            <label>
+               Application Name:
+            </label>
+            <input type="text" formControlName="application_name">
+        </li>
+
+        <li  class="form-row">
+            <label>
+                Application Type:
+            </label>
+            <input type="text" formControlName="application_type">
+        </li>
+    
+        <li  class="form-row">
+            <label>
+                Source Code Url:
+            </label>
+            <input type="text" formControlName="url">
+        </li>
+
+        <li  class="form-row">
+            <label>
+                Username:
+            </label>
+            <input type="text" formControlName="username">
+        </li>
+
+        <li  class="form-row">
+            <label>
+                Password:
+            </label>
+            <input type="password" formControlName="password" style="margin-right: 40px; font-size:x-large">
+            <button mat-button type="button" (click)="gitAuthenticate()" style="    margin-right: 10%;
+    background: cornflowerblue;">Authenticate</button>
+        </li>
+
+        <li class="form-row">
+            <!-- <button type="button" style="margin-right: 2%;" (click)="onPrev()">Prev</button> -->
+            <button type="submit" [disabled]="!sourceCodeUploadForm.valid">Next</button>
+        </li>
+    </ul>
+</form>

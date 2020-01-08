@@ -1,0 +1,30 @@
+<form [formGroup]="resourceGroupForm" (ngSubmit)="onCreateResourceGroup(resourceGroupForm)">
+    <h2 mat-dialog-title>Resource Group Details</h2>
+    <mat-dialog-content class="mat-typography">
+            <div style="padding-bottom:20px">
+            <label>
+                Resource Group Name:
+            </label>
+            <input type="text" formControlName="resource_group_name"> 
+        </div>
+        <div style="padding-bottom:20px">
+            <label>
+                Location:
+            </label>
+            <select class="custom-select"  formControlName="location">
+                    <option value="" disabled>Select location</option>
+                    <option *ngFor="let location of locationList" [ngValue]="location.locationDisplayName">{{location.locationDisplayName}}</option>
+                </select>
+                </div>
+
+    </mat-dialog-content>
+    <mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close type="button">Cancel</button>
+    <button mat-button [mat-dialog-close]="true" cdkFocusInitial type="submit">Create</button>
+    </mat-dialog-actions>
+</form>
+
+
+<!-- Copyright 2019 Google LLC. All Rights Reserved.
+    Use of this source code is governed by an MIT-style license that
+    can be found in the LICENSE file at http://angular.io/license -->

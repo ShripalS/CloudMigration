@@ -1,0 +1,15 @@
+<form [formGroup]="jenkinsDetailsForm" (ngSubmit)="onSubmit(jenkinsDetailsForm.value)">
+    <ul  class="wrapper">
+        <li  class="form-row">
+            <label>
+             Jenkin Server Address :
+            </label>
+            <input type="text" formControlName="jenkin_server">
+        </li>
+
+        <li class="form-row">
+            <button type="button" style="margin-right: 2%;" (click)="onPrev()">Prev</button>
+            <button type="submit" class="form-control" [disabled]="jenkinsDetailsForm.invalid || btnDisable">Submit</button>
+        </li>
+    </ul>
+</form>

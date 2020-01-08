@@ -1,0 +1,37 @@
+@media (min-width: 768px) {
+    .modal-dialog {
+      width: 45%;
+      /*margin: 10% auto;*/
+    }
+  }
+   
+  .modal-content {
+    top: 2em;
+  }
+   
+  /*.modal-dialog.popup-custom {
+    margin: 17% auto;
+  }*/
+   
+  .overlay {
+    position: fixed;
+    overflow-y: scroll;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+  }
+   
+  .noscroll {
+    overflow-y: hidden;
+  }
+   
+  .modal-header {
+    padding: 0%;
+    padding-left: 2%;
+    background-color: #ef2637;
+    color: white;
+  } 
+  

@@ -1,0 +1,47 @@
+<div>
+<form [formGroup]="registryForm" (ngSubmit)="onCreateContainerRegistry(registryForm)">
+    <h2 mat-dialog-title>Container Registry Details</h2>
+    <mat-dialog-content  class="mat-typography">
+        <div style="padding-bottom:20px">
+            <label>
+                Registry Name:
+            </label>
+            <input type="text" formControlName="registry_name"> 
+            <div  *ngIf="nameExists"><label style="color: red; font-style: italic">{{errorMessage}}</label></div>
+        </div>
+        
+
+        <div style="padding-bottom:20px">
+            <label>
+                Location:
+            </label>
+            <select class="custom-select"  formControlName="location">
+                    <option value="" disabled>Select location</option>
+                    <option *ngFor="let location of locationList" [ngValue]="location.locationDisplayName">{{location.locationDisplayName}}</option>
+            </select>
+        </div>
+        <div style="padding-bottom:20px">
+                <label>
+                    Sku:
+                </label>
+                <select class="custom-select"  formControlName="sku">
+                        <option value="" disabled>Select sku</option>
+                        <option *ngFor="let sku of skuList" [ngValue]="sku">{{sku}}</option>
+                </select>
+            </div>
+            <div>
+                <mat-slide-toggle formControlName="admin_user">Admin user</mat-slide-toggle>
+            </div>
+
+    </mat-dialog-content>
+    <mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close type="button">Cancel</button>
+    <button mat-button  cdkFocusInitial type="submit">Create</button>
+    </mat-dialog-actions>
+</form>
+</div>
+
+
+<!-- Copyright 2019 Google LLC. All Rights Reserved.
+    Use of this source code is governed by an MIT-style license that
+    can be found in the LICENSE file at http://angular.io/license -->

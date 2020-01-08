@@ -1,0 +1,36 @@
+<form [formGroup]="AKSServiceDetailsForm" (ngSubmit)="onNext(AKSServiceDetailsForm.value)">
+    <ul  class="wrapper">
+        <li class="form-row">
+            <label>
+            Service Name:
+            </label>
+            <input type="text" formControlName="service_name">
+        </li>
+    
+        <li  class="form-row">
+            <label>
+            Port:
+            </label>
+            <input type="text" formControlName="port">
+        </li>
+
+        <li  class="form-row">
+            <label>
+            Target Port:
+            </label>
+            <input type="text" formControlName="target_port">
+        </li>
+
+        <li class="form-row">
+            <label>
+                App Selector:
+            </label>
+            <input type="text" formControlName="app_selector" disabled>
+        </li>
+    
+        <li class="form-row">
+            <button type="button" style="margin-right: 2%;" (click)="onPrev()">Prev</button>
+            <button type="submit" [disabled]="AKSServiceDetailsForm.invalid">Next</button>
+        </li>
+    </ul>
+</form>

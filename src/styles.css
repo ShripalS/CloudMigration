@@ -1,1 +1,66 @@
 /* You can add global styles to this file, and also import other style files */
+@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+.wrapper {
+    list-style-type: none;
+    border-radius: 3px;
+    margin:0;  
+    padding: 2% 0%; 
+  }
+
+  .form-row {
+    display: flex;
+    justify-content: flex-end;
+    padding: .5em;
+  }
+
+  .form-row > label {
+    padding: .5em 1em .5em 10em;
+    flex: 1;
+  }
+  
+  .form-row >input,
+  .form-row >select,
+  .form-row>a {
+    flex: 2;
+  }
+
+  .form-row > input,
+  .form-row >select,
+  .form-row > button,
+  .form-row>a {
+    padding: .5em;
+    margin-right: 20%;
+    border-radius: 5px;
+  }
+
+  .form-row > button {
+    background: #17a2b8;
+    color: white;
+    border: 0;
+    font-size: medium;
+    font-weight: bold;
+   }
+
+   .mat-tab-link{
+     font-size: large;
+     color:white;
+   }
+
+   .overlay {
+    position: fixed;
+    overflow-y: scroll;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+  } 
+
+  .backdropBackground{
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+  
