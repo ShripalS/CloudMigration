@@ -85,4 +85,16 @@ export class AzureService {
     return this.http.get('https://management.azure.com/subscriptions/' + this.subscriptionId + '/providers/Microsoft.Compute/skus?api-version=2017-09-01')
   }
 
+  //declare var AzureStorage: any;
+
+  getSessionStatusDetails() {
+    //var azure = require('azure-storage');
+    //var tableSvc = azure.createTableService('cloudmigrationrgdiag','yJoNN27HyjQ3S1iyluq7QmP2V5JKYM5KvfZXjpi5dlSAPd2yqtQhP5ylPyPD6DPAhx6H9ke29Vc8HwjYaeCAAQ==');
+    //console.log(tableSvc.retrieveEntity('CloudMigrationStatus', '123456', '545875', function (error, result, response) {
+    //  if (!error) {
+    //    // result contains the entity
+    //  }
+    //}));
+  }
+
 }

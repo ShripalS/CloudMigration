@@ -81,6 +81,10 @@ export class HostingComponent implements OnInit {
 
 
   ngOnInit() {
+
+    this.azureService.getSessionStatusDetails();
+
+
     this.data.currentNavLinkData.subscribe(data => {
       this.navLinks = data;
     })
