@@ -1,45 +1,49 @@
 <form [formGroup]="applicationDetailsForm" class="app-Details-Form" (ngSubmit)="onNext(applicationDetailsForm.value)">
-    <ul  class="wrapper">
-        <li class="form-row">
-            <label>
-            Subscription Id:
-            </label>
-            <select class="custom-select"  formControlName="subscription_id">
-                <option value="" disabled>Choose your subscription</option>
-                <option *ngFor="let subscrip of subscriptionList" [ngValue]="subscrip">{{subscrip}}</option>
-                </select>
-        </li>
-    
-        <li  class="form-row">
-            <label>
-            Technology:
-            </label>
-            <select class="custom-select" (change)="changeTechnology()" formControlName="technology">
-                <option value="" disabled>Choose your technology</option>
-                <option *ngFor="let tech of technologyList" [ngValue]="tech.tech">{{tech.tech}}</option>
-                </select>
-        </li>
+  <ul class="wrapper">
+    <li class="form-row">
+      <label>
+        Subscription Id:
+        <label style="color: red;">*</label>
+      </label>
+      <select class="custom-select" formControlName="subscription_id">
+        <option value="" disabled>Choose your subscription</option>
+        <option *ngFor="let subscrip of subscriptionList" [ngValue]="subscrip">{{subscrip}}</option>
+      </select>
+    </li>
 
-        <li class="form-row">
-            <label>
-                Version:
-            </label>
-            <select class="custom-select"  formControlName="version">
-                <option value="" disabled>Choose your version</option>
-                <option *ngFor="let version of versionList" [ngValue]="version">{{version}}</option>
-                </select>
-        </li>
-    
-        <li  class="form-row">
-            <label>
-                Tag Name:
-            </label>
-            <input type="text" formControlName="tag_name">
-        </li>
-    
-        <li class="form-row">
-            <button type="button" style="margin-right: 2%;" (click)="onPrev()">Prev</button>
-            <button type="submit" [disabled]="applicationDetailsForm.invalid">Next</button>
-        </li>
-    </ul>
+    <li class="form-row">
+      <label>
+        Technology:
+        <label style="color: red;">*</label>
+      </label>
+      <select class="custom-select" (change)="changeTechnology()" formControlName="technology">
+        <option value="" disabled>Choose your technology</option>
+        <option *ngFor="let tech of technologyList" [ngValue]="tech.tech">{{tech.tech}}</option>
+      </select>
+    </li>
+
+    <li class="form-row">
+      <label>
+        Version:
+        <label style="color: red;">*</label>
+      </label>
+      <select class="custom-select" formControlName="version">
+        <option value="" disabled>Choose your version</option>
+        <option *ngFor="let version of versionList" [ngValue]="version">{{version}}</option>
+      </select>
+    </li>
+
+    <li class="form-row">
+      <label>
+        Tag Name:
+        <label style="color: red;">*</label>
+      </label>
+      <input type="text" formControlName="tag_name">
+    </li>
+
+    <li class="form-row">
+      <button type="button" style="margin-right: 2%;" (click)="onPrev()">Prev</button>
+      <button type="submit" [disabled]="applicationDetailsForm.invalid">Next</button>
+    </li>
+  </ul>
 </form>

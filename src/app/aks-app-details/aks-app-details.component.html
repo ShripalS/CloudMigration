@@ -1,98 +1,110 @@
 <form [formGroup]="AKSAppDetailsForm" (ngSubmit)="onNext(AKSAppDetailsForm.value)">
-    <ul  class="wrapper">
-        <li class="form-row">
-            <label>
-            Deployment Name:
-            </label>
-            <input type="text" formControlName="deployment_name">
-        </li>
+  <ul class="wrapper">
+    <li class="form-row">
+      <label>
+        Deployment Name:
+        <label style="color: red;">*</label>
+      </label>
+      <input type="text" formControlName="deployment_name">
+    </li>
 
-        <li class="form-row">
-            <label>
-            Application Name:
-            </label>
-            <input type="text" formControlName="application_name">
-        </li>
-    
-        <li  class="form-row">
-            <label>
-            Replicas:
-            </label>
-            <input type="text" formControlName="replicas">
-        </li>
-    
-        <li  class="form-row">
-            <label>
-                Node Selector:
-            </label>
-            <select class="custom-select" formControlName="node_selector">
-                <option value="" disabled>Select</option>
-                <option *ngFor="let nodeSelector of nodeSelectorList" [ngValue]="nodeSelector">{{nodeSelector}}</option>
-            </select>
-        </li>
-       
-        <li  class="form-row">
-            <label>
-                Container Name:
-            </label>
-            <input type="text" formControlName="container_name">
-        </li>
+    <li class="form-row">
+      <label>
+        Application Name:
+        <label style="color: red;">*</label>
+      </label>
+      <input type="text" formControlName="application_name">
+    </li>
 
-        <li class="form-row">
-            <label>
-                Container Port:
-            </label>
-            <input type="text" formControlName="container_port">
-        </li>
+    <li class="form-row">
+      <label>
+        Replicas:
+        <label style="color: red;">*</label>
+      </label>
+      <input type="text" formControlName="replicas">
+    </li>
 
-        <li  class="form-row">
-            <label>
-                Container Image:
-            </label>
-            <input type="text" formControlName="container_image">
-        </li>
-        
-        
-        <li  class="form-row">
-            <label>
-                CPU Requests:
-            </label>
-            <input type="text" formControlName="cpu_requests">
-        </li>
+    <li class="form-row">
+      <label>
+        Node Selector:
+        <label style="color: red;">*</label>
+      </label>
+      <select class="custom-select" formControlName="node_selector">
+        <option value="" disabled>Select</option>
+        <option *ngFor="let nodeSelector of nodeSelectorList" [ngValue]="nodeSelector">{{nodeSelector}}</option>
+      </select>
+    </li>
 
-           
-        <li  class="form-row">
-            <label>
-                CPU Requests Memory:
-            </label>
-            <input type="text" formControlName="cpu_requests_memory">
-        </li>
+    <li class="form-row">
+      <label>
+        Container Name:
+        <label style="color: red;">*</label>
+      </label>
+      <input type="text" formControlName="container_name" (input)="changeContainerImage()">
+    </li>
 
-        <li  class="form-row">
-            <label>
-                CPU Limits:
-            </label>
-            <input type="text" formControlName="cpu_limits">
-        </li>
+    <li class="form-row">
+      <label>
+        Container Image:
+        <label style="color: red;">*</label>
+      </label>
+      <input type="text" formControlName="container_image" disabled>
+    </li>
 
-        <li  class="form-row">
-            <label>
-                CPU Limits Memory:
-            </label>
-            <input type="text" formControlName="cpu_limits_memory">
-        </li>
+    <li class="form-row">
+      <label>
+        Container Port:
+        <label style="color: red;">*</label>
+      </label>
+      <input type="text" formControlName="container_port">
+    </li>
 
 
-        <li  class="form-row">
-            <label>
-                Image Pull Scerets:
-            </label>
-            <input type="text" formControlName="image_pull_secrets">
-        </li>
+    <li class="form-row">
+      <label>
+        CPU Requests:
+        <label style="color: red;">*</label>
+      </label>
+      <input type="text" formControlName="cpu_requests">
+    </li>
 
-        <li class="form-row">
-            <button type="button" style="margin-right: 2%;" (click)="onPrev()">Prev</button>
-            <button type="submit" [disabled]="AKSAppDetailsForm.invalid">Next</button>
-        </li>
-    </ul>
+
+    <li class="form-row">
+      <label>
+        CPU Requests Memory:
+        <label style="color: red;">*</label>
+      </label>
+      <input type="text" formControlName="cpu_requests_memory">
+    </li>
+
+    <li class="form-row">
+      <label>
+        CPU Limits:
+        <label style="color: red;">*</label>
+      </label>
+      <input type="text" formControlName="cpu_limits">
+    </li>
+
+    <li class="form-row">
+      <label>
+        CPU Limits Memory:
+        <label style="color: red;">*</label>
+      </label>
+      <input type="text" formControlName="cpu_limits_memory">
+    </li>
+
+
+    <li class="form-row">
+      <label>
+        Image Pull Scerets:
+        <label style="color: red;">*</label>
+      </label>
+      <input type="text" formControlName="image_pull_secrets">
+    </li>
+
+    <li class="form-row">
+      <button type="button" style="margin-right: 2%;" (click)="onPrev()">Prev</button>
+      <button type="submit" [disabled]="AKSAppDetailsForm.invalid">Next</button>
+    </li>
+  </ul>
 </form>

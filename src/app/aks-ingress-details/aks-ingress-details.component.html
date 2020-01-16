@@ -1,52 +1,56 @@
 <form [formGroup]="AKSIngressDetailsForm" (ngSubmit)="onNext(AKSIngressDetailsForm.value)">
-    <ul  class="wrapper">
-        <li  class="form-row">
-            <label>
-            Ingress Name:
-            </label>
-            <input type="text" formControlName="ingress_name" placeholder="Enter the ingress name">
-        </li>
+  <ul class="wrapper">
+    <li class="form-row">
+      <label>
+        Ingress Name:
+        <label style="color: red;">*</label>
+      </label>
+      <input type="text" formControlName="ingress_name" placeholder="Enter the ingress name">
+    </li>
 
 
-        <!-- <li class="form-row">
-            <label>
-            Namespace Name:
-            </label>
-            <input type="text" formControlName="namespace_name">
-        </li>
-     -->
-        <!-- <li class="form-row">
-            <label>
-                Replica Count:
-            </label>
-            <input type="text" formControlName="replica_count">
-        </li> -->
+    <!-- <li class="form-row">
+           <label>
+           Namespace Name:
+           </label>
+           <input type="text" formControlName="namespace_name">
+       </li>
+    -->
+    <!-- <li class="form-row">
+        <label>
+            Replica Count:
+        </label>
+        <input type="text" formControlName="replica_count">
+    </li> -->
 
-        <li class="form-row">
-            <label>
-            Path:
-            </label>
-            <input type="text" formControlName="path" placeholder="Enter the relative path">
-        </li>
-    
-        <li  class="form-row">
-            <label>
-            Service Name:
-            </label>
-            <input type="text" formControlName="service_name" disabled>
-        </li>
+    <li class="form-row">
+      <label>
+        Path:
+        <label style="color: red;">*</label>
+      </label>
+      <input type="text" formControlName="path" placeholder="Enter the relative path">
+    </li>
 
-        <li class="form-row">
-            <label>
-                Service Port:
-            </label>
-            <input type="text" formControlName="service_port" disabled>
-        </li>
-    
-    
-        <li class="form-row">
-            <button type="button" style="margin-right: 2%;" (click)="onPrev()">Prev</button>
-            <button type="submit" [disabled]="AKSIngressDetailsForm.invalid">Next</button>
-        </li>
-    </ul>
+    <li class="form-row">
+      <label>
+        Service Name:
+        <label style="color: red;">*</label>
+      </label>
+      <input type="text" formControlName="service_name" disabled>
+    </li>
+
+    <li class="form-row">
+      <label>
+        Service Port:
+        <label style="color: red;">*</label>
+      </label>
+      <input type="text" formControlName="service_port" disabled>
+    </li>
+
+
+    <li class="form-row">
+      <button type="button" style="margin-right: 2%;" (click)="onPrev()">Prev</button>
+      <button type="submit" [disabled]="AKSIngressDetailsForm.invalid">Next</button>
+    </li>
+  </ul>
 </form>

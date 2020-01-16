@@ -1,146 +1,161 @@
-<form [formGroup]="hostingDetailsForm"  (ngSubmit)="onNext(hostingDetailsForm.value)">
-    <ul  class="wrapper">
+<form [formGroup]="hostingDetailsForm" (ngSubmit)="onNext(hostingDetailsForm.value)">
+  <ul class="wrapper">
+    <li class="form-row">
+      <label>
+        Host:
+        <label style="color: red;">*</label>
+      </label>
+      <select class="custom-select" (change)="changeHost($event)" formControlName="host">
+        <option value="" disabled>Choose your host</option>
+        <option *ngFor="let host of hostList" [ngValue]="host">{{host}}</option>
+      </select>
+    </li>
+
+    <li class="form-row">
+      <label>
+        Resource Group:
+        <label style="color: red;">*</label>
+      </label>
+      <select class="custom-select" (change)="changeResourceGroup()" formControlName="resource_group">
+        <option value="" disabled>Choose your resource group</option>
+        <option *ngFor="let resourceGroup of resourceGroupList" [ngValue]="resourceGroup">{{resourceGroup}}</option>
+      </select>
+    </li>
+    <li style="margin: auto 35%;"><a style="color:lightskyblue" (click)="getResourceGroupDetails()">+Create New</a></li>
+
+    <li class="form-row">
+      <label>
+        ACR:
+        <label style="color: red;">*</label>
+      </label>
+      <select class="custom-select" formControlName="acr_name" (change)="setAcrServer(hostingDetailsForm.value)">
+        <option value="" disabled>Choose your ACR name</option>
+        <option *ngFor="let acr of acrList" [ngValue]="acr">{{acr}}</option>
+      </select>
+    </li>
+    <li style="margin: auto 35%;"><a style="color:lightskyblue" (click)="getACRDetails()">+Create New</a></li>
+
+
+    <li class="form-row">
+      <label>
+        Cluster Already Created:
+        <label style="color: red;">*</label>
+      </label>
+      <select class="custom-select" (change)="changeClusterCreated($event)" formControlName="cluster_created">
+        <option value="" disabled>Select</option>
+        <option *ngFor="let clusterCreated of clusterCreatedList" [ngValue]="clusterCreated">{{clusterCreated}}</option>
+      </select>
+    </li>
+
+    <div formGroupName="cluster" *ngIf="isClusterCreated; else clusterExists">
+      <li class="form-row">
+        <label>
+          Cluster Name:
+          <label style="color: red;">*</label>
+        </label>
+        <input type="text" formControlName="cluster_name">
+      </li>
+
+      <li class="form-row">
+        <label>
+          Region:
+          <label style="color: red;">*</label>
+        </label>
+        <select class="custom-select" (change)="changeRegion()" formControlName="region" required>
+          <option value="" disabled>Select region</option>
+          <option *ngFor="let region of regionList" [ngValue]="region.regionDisplayName">{{region.regionDisplayName}}</option>
+        </select>
+      </li>
+
+      <li class="form-row">
+        <label>
+          Kubernetes Version:
+          <label style="color: red;">*</label>
+        </label>
+        <select class="custom-select" formControlName="version" required>
+          <option value="" disabled>Select kubernetes version</option>
+          <option *ngFor="let version of kubernetsVersionList" [ngValue]="version">{{version}}</option>
+        </select>
+      </li>
+
+      <li class="form-row">
+        <label>
+          DNS Name Prefix:
+          <label style="color: red;">*</label>
+        </label>
+        <input type="text" formControlName="dns_name_prefix" required>
+      </li>
+
+      <li class="form-row">
+        <label>
+          Node Count:
+          <label style="color: red;">*</label>
+        </label>
+        <input type="text" formControlName="node_count" required>
+      </li>
+
+      <li class="form-row">
+        <label>
+          Node Size:
+          <label style="color: red;">*</label>
+        </label>
+        <select class="custom-select" (change)="changeNodeSize($event)" formControlName="node_size" required>
+          <option value="" disabled>Choose your node size</option>
+          <option *ngFor="let nodeSize of nodeSizeList" [ngValue]="nodeSize">{{nodeSize.name}}</option>
+        </select>
+      </li>
+
+      <li class="form-row">
+        <label>
+          Service Principle Client ID:
+          <label style="color: red;">*</label>
+        </label>
+        <input type="text" formControlName="service_principle_client_id" required>
+      </li>
+
+
+      <li class="form-row">
+        <label>
+          Service Principle Client Secret:
+          <label style="color: red;">*</label>
+        </label>
+        <input type="text" formControlName="service_principle_client_secret" required>
+      </li>
+
+      <!-- <li  class="form-row">
+          <label>
+              Pod Count:
+          </label>
+          <input type="text" formControlName="pod_count">
+      </li>
+
+      <li  class="form-row">
+          <label>
+              Application Count:
+          </label>
+          <input type="text" formControlName="application_count">
+      </li> -->
+    </div>
+    <ng-template #clusterExists>
+      <div formGroupName="cluster">
         <li class="form-row">
-            <label>
-            Host:
-            </label>
-            <select class="custom-select" (change)="changeHost($event)" formControlName="host">
-                <option value="" disabled>Choose your host</option>
-                <option *ngFor="let host of hostList" [ngValue]="host">{{host}}</option>
-            </select>
-        </li>
-
-        <li  class="form-row">
-            <label>
-                Resource Group:
-            </label>
-            <select class="custom-select" (change)="changeResourceGroup()" formControlName="resource_group">
-                <option value="" disabled>Choose your resource group</option>
-                <option *ngFor="let resourceGroup of resourceGroupList" [ngValue]="resourceGroup">{{resourceGroup}}</option>
-                </select>
-        </li>
-        <li style="margin: auto 35%;"><a style="color:lightskyblue" (click)="getResourceGroupDetails()">+Create New</a></li>
-
-        <li  class="form-row">
-            <label>
-                ACR:
-            </label>
-            <select class="custom-select"  formControlName="acr_name">
-                <option value="" disabled>Choose your ACR name</option>
-                <option *ngFor="let acr of acrList" [ngValue]="acr">{{acr}}</option>
-                </select>
-        </li>
-        <li style="margin: auto 35%;"><a style="color:lightskyblue" (click)="getACRDetails()">+Create New</a></li>
-
-
-        <li class="form-row">
-            <label>
-            Cluster Already Created:
-            </label>
-            <select class="custom-select" (change)="changeClusterCreated($event)" formControlName="cluster_created">
-                <option value="" disabled>Select</option>
-                <option *ngFor="let clusterCreated of clusterCreatedList" [ngValue]="clusterCreated">{{clusterCreated}}</option>
-            </select>
-        </li>
-    
-      <div formGroupName="cluster" *ngIf="isClusterCreated">
-            <li  class="form-row">
-                <label>
-                Cluster Name:
-                </label>
-                <input type="text" formControlName="cluster_name">
-            </li>
-
-            <li class="form-row">
-                <label>
-                    Region:
-                </label>
-                <select class="custom-select" (change)="changeRegion()"  formControlName="region">
-                        <option value="" disabled>Select region</option>
-                        <option *ngFor="let region of regionList" [ngValue]="region.regionDisplayName">{{region.regionDisplayName}}</option>
-                </select>
-            </li>
-        
-            <li  class="form-row">
-                <label>
-                    Kubernetes Version:
-                </label>
-                <select class="custom-select"  formControlName="version">
-                        <option value="" disabled>Select kubernetes version</option>
-                        <option *ngFor="let version of kubernetsVersionList" [ngValue]="version">{{version}}</option>
-                </select>
-            </li>
-
-            <li  class="form-row">
-                <label>
-                    DNS Name Prefix:
-                </label>
-                <input type="text" formControlName="dns_name_prefix">
-            </li>
-            
-            <li  class="form-row">
-                <label>
-                    Node Count:
-                </label>
-                <input type="text" formControlName="node_count">
-            </li>
-
-            <li  class="form-row">
-                <label>
-                    Node Size:
-                </label>
-                <select class="custom-select" (change)="changeNodeSize($event)" formControlName="node_size">
-                    <option value="" disabled>Choose your node size</option>
-                    <option *ngFor="let nodeSize of nodeSizeList" [ngValue]="nodeSize">{{nodeSize.name}}</option>
-                </select>
-            </li>
-
-            <li  class="form-row">
-                <label>
-                    Service Principle Client ID:
-                </label>
-                <input type="text" formControlName="service_principle_client_id">
-            </li>
-
-            
-            <li  class="form-row">
-                <label>
-                    Service Principle Client Secret:
-                </label>
-                <input type="text" formControlName="service_principle_client_secret">
-            </li>
-
-            <!-- <li  class="form-row">
-                <label>
-                    Pod Count:
-                </label>
-                <input type="text" formControlName="pod_count">
-            </li>
-        
-            <li  class="form-row">
-                <label>
-                    Application Count:
-                </label>
-                <input type="text" formControlName="application_count">
-            </li> -->
-      </div>
-      <div formGroupName="cluster" *ngIf="!isClusterCreated">
-        <li class="form-row">
-            <label>
+          <label>
             Cluster Name:
-            </label>
-            <select class="custom-select" (change)="changeClusterCreated($event)" formControlName="cluster_name">
-                <option value="" disabled>Choose your cluster</option>
-                <option *ngFor="let cluster of clusterList" [ngValue]="cluster">{{cluster}}</option>
-            </select>
+            <label style="color: red;">*</label>
+          </label>
+          <select class="custom-select" (change)="changeClusterCreated($event)" formControlName="cluster_name">
+            <option value="" disabled>Choose your cluster</option>
+            <option *ngFor="let cluster of clusterList" [ngValue]="cluster">{{cluster}}</option>
+          </select>
         </li>
       </div>
+    </ng-template>
 
-        <li class="form-row">
-            <button type="button" style="margin-right: 2%;" (click)="onPrev()">Prev</button>
-            <button type="submit" [disabled]="hostingDetailsForm.invalid">Next</button>
-        </li>
-    </ul>
+    <li class="form-row">
+      <button type="button" style="margin-right: 2%;" (click)="onPrev()">Prev</button>
+      <button type="submit" [disabled]="hostingDetailsForm.invalid">Next</button>
+    </li>
+  </ul>
 </form>
 
 

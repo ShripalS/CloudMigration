@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { DataService } from '../data.service';
 import { ServiceDetailsAKS } from '../modals/serviceDetailsAKS';
@@ -13,13 +13,13 @@ import { MsAdalAngular6Service } from 'microsoft-adal-angular6';
 })
 export class AksServiceDetailsComponent implements OnInit {
 
-  constructor(private fb: FormBuilder, private router: Router, private data:DataService, private adalSvc: MsAdalAngular6Service) { }
+  constructor(private fb: FormBuilder, private router: Router, private data: DataService, private adalSvc: MsAdalAngular6Service) { }
 
   AKSServiceDetailsForm = this.fb.group({
-    service_name : [''],
-    port : [''],
-    target_port : [''],
-    app_selector :  [''],
+    service_name: ['', Validators.required],
+    port: ['', Validators.required],
+    target_port: ['', Validators.required],
+    app_selector: ['', Validators.required],
   })
 
   public deploymentData
@@ -30,40 +30,40 @@ export class AksServiceDetailsComponent implements OnInit {
   ngOnInit() {
     // this.browserRefresh = browserRefresh;
     // if(!browserRefresh){
-      this.data.currentNavLinkData.subscribe(data =>{
-        this.navLinks = data;
-      })
+    this.data.currentNavLinkData.subscribe(data => {
+      this.navLinks = data;
+    })
 
-      this.data.currentdeploymentAKSDetailsData.subscribe(data => {
-        this.deploymentData = data
+    this.data.currentdeploymentAKSDetailsData.subscribe(data => {
+      this.deploymentData = data
       this.data.currentServiceAKSDetailsData.subscribe(data => {
         this.serviceData = data
         this.AKSServiceDetailsForm.patchValue({
-          app_selector : this.deploymentData.Application_Name
+          app_selector: this.deploymentData.Application_Name
         })
-        if(this.serviceData !== null){
+        if (this.serviceData !== null) {
           this.updateFormData();
         }
       })
     })
-  // }
-  // else{
-  //   localStorage.clear();
-  //   sessionStorage.clear();
-  //   this.adalSvc.logout();
-  // }
-}
-
-  updateFormData(){
-    this.AKSServiceDetailsForm.patchValue({
-      service_name : this.serviceData.Service_Name,
-      port : this.serviceData.Port,
-      target_port : this.serviceData.Target_Port,
-      app_selector :  this.serviceData.App_Selector,
-     });
+    // }
+    // else{
+    //   localStorage.clear();
+    //   sessionStorage.clear();
+    //   this.adalSvc.logout();
+    // }
   }
-  
-  onNext(values){
+
+  updateFormData() {
+    this.AKSServiceDetailsForm.patchValue({
+      service_name: this.serviceData.Service_Name,
+      port: this.serviceData.Port,
+      target_port: this.serviceData.Target_Port,
+      app_selector: this.serviceData.App_Selector,
+    });
+  }
+
+  onNext(values) {
     this.serviceData = new ServiceDetailsAKS();
     this.serviceData.Service_Name = values.service_name;
     this.serviceData.Port = values.port;
@@ -74,10 +74,10 @@ export class AksServiceDetailsComponent implements OnInit {
     this.data.changeNavLinkData(this.navLinks);
     this.router.navigate(['/aks-ingress-details']);
   }
-  
-    onPrev(){
-      this.router.navigate(['/aks-app-details'])
-    }
-  
+
+  onPrev() {
+    this.router.navigate(['/aks-app-details'])
+  }
+
 
 }

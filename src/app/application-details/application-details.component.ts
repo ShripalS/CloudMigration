@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { Router, NavigationStart } from '@angular/router';
 import { DataService } from '../data.service';
 import { AppDetails } from '../modals/appDetails';
@@ -14,12 +14,12 @@ import { MsAdalAngular6Service } from 'microsoft-adal-angular6';
 })
 export class ApplicationDetailsComponent implements OnInit {
 
-  
+
   applicationDetailsForm = this.fb.group({
-    subscription_id : [''],
-    technology : [''],
-    version : [''],
-    tag_name : [''],
+    subscription_id: ['', Validators.required],
+    technology: ['', Validators.required],
+    version: ['', Validators.required],
+    tag_name: ['', Validators.required],
   })
 
   public appDetailsData;
@@ -28,40 +28,42 @@ export class ApplicationDetailsComponent implements OnInit {
   public browserRefresh: boolean;
 
 
-  technologyList = [{tech : ".Net", versions: ['3.5','4.6.2','4.7.1','4.7.2','4.7','4.8'] },
-  {tech : "JAVA", versions: ['3.6.3-jdk-11-openj9','3.6-jdk-11-openj9','3-jdk-11-openj9','3.6.3-jdk-11-slim',
-  '3.6.3-jdk-11','3.6.3-slim']}]
+  technologyList = [{ tech: ".Net", versions: ['3.5', '4.6.2', '4.7.1', '4.7.2', '4.7', '4.8'] },
+  {
+    tech: "JAVA", versions: ['3.6.3-jdk-11-openj9', '3.6-jdk-11-openj9', '3-jdk-11-openj9', '3.6.3-jdk-11-slim',
+      '3.6.3-jdk-11', '3.6.3-slim']
+  }]
   versionList = [];
 
 
 
-  constructor(private fb: FormBuilder, private router: Router, private data:DataService, 
-    private adalSvc: MsAdalAngular6Service) { 
+  constructor(private fb: FormBuilder, private router: Router, private data: DataService,
+    private adalSvc: MsAdalAngular6Service) {
 
     let azureSubscriptionDetails = JSON.parse(sessionStorage.getItem('azureSubscriptionDetails'));
-    for(let sub of azureSubscriptionDetails.value)
-    {
+    for (let sub of azureSubscriptionDetails.value) {
       this.subscriptionList.push(sub.displayName + '(' + sub.subscriptionId + ')');
     }
 
   }
 
-  
+
   ngOnInit() {
 
     this.browserRefresh = browserRefresh;
     // if(!browserRefresh){
 
-      this.data.currentNavLinkData.subscribe(data =>{
-        this.navLinks = data;
-      })
+    this.data.currentNavLinkData.subscribe(data => {
+      this.navLinks = data;
+    })
 
-      this.data.currentApplicationDetailsData.subscribe(data => {this.appDetailsData = data
-        if(this.appDetailsData !== null){
-          this.updateFormData();
-          this.changeTechnology();
-        }
-      })
+    this.data.currentApplicationDetailsData.subscribe(data => {
+    this.appDetailsData = data
+      if (this.appDetailsData !== null) {
+        this.updateFormData();
+        this.changeTechnology();
+      }
+    })
     //}
     // else{
     //   localStorage.clear();
@@ -84,31 +86,31 @@ export class ApplicationDetailsComponent implements OnInit {
     return this.applicationDetailsForm.get('subscription_id');
   }
 
-  changeTechnology(){
+  changeTechnology() {
     // this.technology.setValue(e.target.value, {
     //  onlySelf: true
     // })
     console.log(this.technology.value);
     this.versionList = [];
-    let fetchedVersionList = this.technologyList.find(x=>x.tech === this.technology.value).versions;
+    let fetchedVersionList = this.technologyList.find(x => x.tech === this.technology.value).versions;
     console.log(fetchedVersionList);
-    for(let item of fetchedVersionList){
+    for (let item of fetchedVersionList) {
       this.versionList.push(item);
     }
   }
 
-  updateFormData(){
+  updateFormData() {
     let subscription = (JSON.parse(sessionStorage.getItem('azureSubscriptionDetails'))).value;
-    let subscript_name = subscription.find(x=>x.subscriptionId = this.appDetailsData.Subscription_ID).displayName
+    let subscript_name = subscription.find(x => x.subscriptionId = this.appDetailsData.Subscription_ID).displayName
     this.applicationDetailsForm.patchValue({
-      subscription_id:subscript_name+'('+this.appDetailsData.Subscription_ID+')',
-      technology : this.appDetailsData.Technology,
-      version : this.appDetailsData.Version,
-      tag_name :this.appDetailsData.Tag_Name,
-     });
+      subscription_id: subscript_name + '(' + this.appDetailsData.Subscription_ID + ')',
+      technology: this.appDetailsData.Technology,
+      version: this.appDetailsData.Version,
+      tag_name: this.appDetailsData.Tag_Name,
+    });
   }
 
-  onNext(values){
+  onNext(values) {
     sessionStorage.setItem('subscriptionId', ((values.subscription_id.split(': ')[0]).split('(')[1]).split(')')[0])
     console.log(sessionStorage.getItem('subscriptionId'))
     this.appDetailsData = new AppDetails();
@@ -123,7 +125,7 @@ export class ApplicationDetailsComponent implements OnInit {
     this.router.navigate(['/hosting']);
   }
 
-  onPrev(){
+  onPrev() {
     this.router.navigate(['/source-code'])
   }
 

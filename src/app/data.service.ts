@@ -8,7 +8,7 @@ import { ServiceDetailsAKS } from './modals/serviceDetailsAKS';
 import { IngressDetails } from './modals/ingressAKSDetails';
 import { JenkinServerDetails } from './modals/jenkinsServerDetails';
 import { CMSData } from './modals/CMSData';
-import { HttpClient, HttpErrorResponse,HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
 import { map, catchError } from 'rxjs/operators';
 import { environment } from './../environments/environment';
 
@@ -24,43 +24,43 @@ export class DataService {
       label: 'Source Code Upload',
       link: './source-code',
       index: 0,
-      disable : true
-    }, 
+      disable: true
+    },
     {
-        label: 'Application Details',
-        link: './app-details',
-        index: 1,
-        disable : true
-    }, 
+      label: 'Application Details',
+      link: './app-details',
+      index: 1,
+      disable: true
+    },
     {
-        label: 'Hosting',
-        link: './hosting',
-        index: 2,
-        disable : true
+      label: 'Hosting',
+      link: './hosting',
+      index: 2,
+      disable: true
     },
     {
       label: 'AKS Deployment Details',
       link: './aks-app-details',
       index: 3,
-      disable : true
+      disable: true
     },
     {
       label: 'AKS Service Details',
       link: './aks-service-details',
       index: 4,
-      disable : true
+      disable: true
     },
     {
       label: 'AKS Ingress Details',
       link: './aks-ingress-details',
       index: 5,
-      disable : true
+      disable: true
     },
     {
       label: 'Jenkin Server Details',
       link: './jenkins-service-details',
       index: 6,
-      disable : true
+      disable: true
     },
   ]);
   currentNavLinkData = this.navLinkSource.asObservable();
@@ -92,36 +92,38 @@ export class DataService {
     this.navLinkSource.next(data)
   }
 
-  changeAppDetailsData(data : AppDetails) {
+  changeAppDetailsData(data: AppDetails) {
     this.applicationDetailsSource.next(data)
   }
 
-  changeSourceCodeDetails(data : SourceCodeDetails) {
+  changeSourceCodeDetails(data: SourceCodeDetails) {
     this.sourceCodeDetails.next(data)
   }
 
-  changeHostingDetails(data : HostingDetails) {
+  changeHostingDetails(data: HostingDetails) {
     this.hostingDetailsSource.next(data)
   }
 
-  changeDeploymentAKSDetails(data : DeploymentDetailsAKS) {
+  changeDeploymentAKSDetails(data: DeploymentDetailsAKS) {
     this.deploymentAKSDetailsSource.next(data)
   }
 
-  changeServiceAKSDetails(data : ServiceDetailsAKS) {
+  changeServiceAKSDetails(data: ServiceDetailsAKS) {
     this.serviceAKSDetailsSource.next(data)
   }
 
-  changeIngressAKSDetails(data : IngressDetails) {
+  changeIngressAKSDetails(data: IngressDetails) {
     this.ingressAKSDetailsSource.next(data)
   }
 
-  changeJenkinServerDetails(data : JenkinServerDetails) {
+  changeJenkinServerDetails(data: JenkinServerDetails) {
     this.jenkinsServerDetailsSource.next(data)
   }
 
-  OnSubmit(){
+  OnSubmit() {
     let cmsData = new CMSData()
+    cmsData.SessionID = sessionStorage.getItem('currentSessionId');
+    cmsData.PartitonKey = sessionStorage.getItem('currentPartitionId');
     this.currentApplicationDetailsData.subscribe(appData => {
       cmsData.ApplicationDetails = appData
       this.currentSourceCodeDetailsData.subscribe(srcData => {
@@ -135,25 +137,25 @@ export class DataService {
               this.currentIngressAKSDetailsData.subscribe(ingressData => {
                 cmsData.IngressDetails = ingressData
                 this.currentJenkinsServerDetailsData.subscribe(jenkinsData => {
-                  cmsData.JenkinsDetails = jenkinsData 
+                  cmsData.JenkinsDetails = jenkinsData
                   console.log(JSON.stringify(cmsData));
+                })
               })
             })
           })
         })
       })
     })
-  })
-}
-
-private handleError(error: HttpErrorResponse) {
-  console.error('server error:', error);
-  if (error.error instanceof Error) {
-    let errMessage = error.error.message;
-    return Observable.throw(errMessage);
-   
   }
-  return Observable.throw(error || 'Server error');
-}
+
+  private handleError(error: HttpErrorResponse) {
+    console.error('server error:', error);
+    if (error.error instanceof Error) {
+      let errMessage = error.error.message;
+      return Observable.throw(errMessage);
+
+    }
+    return Observable.throw(error || 'Server error');
+  }
 
 }

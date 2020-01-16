@@ -15,4 +15,6 @@ export class CMSData {
   ServiceDetails: ServiceDetailsAKS;
   IngressDetails: IngressDetails;
   JenkinsDetails: JenkinServerDetails;
+  SessionID: string;
+  PartitonKey: string;
 }

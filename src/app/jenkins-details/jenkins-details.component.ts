@@ -5,6 +5,7 @@ import { DataService } from '../data.service';
 import { JenkinServerDetails } from '../modals/jenkinsServerDetails';
 import { browserRefresh } from '../../app/app.component'
 import { MsAdalAngular6Service } from 'microsoft-adal-angular6';
+import { v4 as uuid } from 'uuid';
 
 @Component({
   selector: 'app-jenkins-details',
@@ -13,7 +14,7 @@ import { MsAdalAngular6Service } from 'microsoft-adal-angular6';
 })
 export class JenkinsDetailsComponent implements OnInit {
 
-  constructor(private fb: FormBuilder, private router: Router, private data:DataService, private adalSvc: MsAdalAngular6Service) { }
+  constructor(private fb: FormBuilder, private router: Router, private data: DataService, private adalSvc: MsAdalAngular6Service) { }
 
 
   public jenkinData;
@@ -21,25 +22,25 @@ export class JenkinsDetailsComponent implements OnInit {
   public btnDisable = false;
   public browserRefresh: boolean;
 
-  
+
   jenkinsDetailsForm = this.fb.group({
-    jenkin_server : [''],
+    jenkin_server: [''],
   })
 
 
   ngOnInit() {
     // this.browserRefresh = browserRefresh;
     // if(!browserRefresh){
-      this.data.currentNavLinkData.subscribe(data =>{
-        this.navLinks = data;
-      })
+    this.data.currentNavLinkData.subscribe(data => {
+      this.navLinks = data;
+    })
 
-      this.data.currentJenkinsServerDetailsData.subscribe(jenkinsData => {
-        this.jenkinData = jenkinsData 
-        if(this.jenkinData !== null){
-          this.updateFormData();
-        }
-      })
+    this.data.currentJenkinsServerDetailsData.subscribe(jenkinsData => {
+      this.jenkinData = jenkinsData
+      if (this.jenkinData !== null) {
+        this.updateFormData();
+      }
+    })
     // }
     // else{
     //   localStorage.clear();
@@ -49,22 +50,24 @@ export class JenkinsDetailsComponent implements OnInit {
   }
 
 
-  updateFormData(){
+  updateFormData() {
     this.jenkinsDetailsForm.patchValue({
-      jenkin_server :  this.jenkinData.Jenkin_Server,
-     });
+      jenkin_server: this.jenkinData.Jenkin_Server,
+    });
   }
-  
-  onSubmit(values){
+
+  onSubmit(values) {
+    sessionStorage.setItem('currentSessionId', uuid());
+    sessionStorage.setItem('currentPartitionId', uuid());
     this.jenkinData = new JenkinServerDetails();
     this.jenkinData.Jenkin_Server = values.jenkin_server;
     this.data.changeJenkinServerDetails(this.jenkinData);
     this.data.OnSubmit();
     this.btnDisable = true;
   }
-  
-    onPrev(){
-      this.router.navigate(['/aks-ingress-details'])
-    }
+
+  onPrev() {
+    this.router.navigate(['/aks-ingress-details'])
+  }
 
 }
