@@ -148,11 +148,11 @@ export class DataService {
     })
     let headers = new HttpHeaders();
     headers = headers.set('Content-Type', 'application/json');
-    return this.http.post("http://localhost:56054/CloudMigration/", cmsData);
+    return this.http.post("http://192.168.154.129//CloudMigration/", cmsData);
   }
 
   getStatus(): Observable<any> {
-    return this.http.get("http://localhost:56054/CloudMigration/GetStatus", {
+    return this.http.get("http://192.168.154.129//CloudMigration/GetStatus", {
       params: {
         partitionKey: '123456',
         sessionId: '545875'
