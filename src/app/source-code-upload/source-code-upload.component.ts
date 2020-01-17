@@ -37,6 +37,10 @@ export class SourceCodeUploadComponent implements OnInit {
   srcRepo = ['Git']
 
   ngOnInit() {
+
+    //this.data.getStatus().subscribe(x => {x
+    //  console.log(x)
+    //});
     this.browserRefresh = browserRefresh;
     // if(!browserRefresh){
     this.data.currentNavLinkData.subscribe(data => {

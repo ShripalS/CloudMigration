@@ -151,6 +151,14 @@ export class DataService {
     return this.http.post("http://localhost:56054/CloudMigration/", cmsData);
   }
 
+  getStatus(): Observable<any> {
+    return this.http.get("http://localhost:56054/CloudMigration/GetStatus", {
+      params: {
+        partitionKey: '123456',
+        sessionId: '545875'
+        }
+      });
+  }
  
 
   private handleError(error: HttpErrorResponse) {
