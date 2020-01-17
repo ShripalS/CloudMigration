@@ -123,7 +123,7 @@ export class DataService {
   OnSubmit(): Observable<any> {
     let cmsData = new CMSData()
     cmsData.SessionID = sessionStorage.getItem('currentSessionId');
-    cmsData.PartitonKey = sessionStorage.getItem('currentPartitionId');
+    cmsData.PartitionKey = sessionStorage.getItem('currentPartitionId');
     this.currentApplicationDetailsData.subscribe(appData => {
       cmsData.ApplicationDetails = appData
       this.currentSourceCodeDetailsData.subscribe(srcData => {

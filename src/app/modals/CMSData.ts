@@ -16,5 +16,5 @@ export class CMSData {
   IngressDetails: IngressDetails;
   JenkinsDetails: JenkinServerDetails;
   SessionID: string;
-  PartitonKey: string;
+  PartitionKey: string;
 }
