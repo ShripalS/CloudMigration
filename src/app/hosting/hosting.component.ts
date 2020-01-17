@@ -268,7 +268,7 @@ export class HostingComponent implements OnInit {
     this.hostingData.Version = values.cluster.version;
     this.hostingData.DNS_Name_Prefix = values.cluster.dns_name_prefix;
     this.hostingData.Node_Count = values.cluster.node_count
-    this.hostingData.Node_Size = values.cluster.node_size;
+    this.hostingData.Node_Size = values.cluster.node_size.name;
     this.hostingData.Service_Principle_Client_ID = values.cluster.service_principle_client_id
     this.hostingData.Service_Principle_Client_Secret = values.cluster.service_principle_client_secret;
     console.log(this.hostingData)

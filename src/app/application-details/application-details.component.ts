@@ -32,7 +32,14 @@ export class ApplicationDetailsComponent implements OnInit {
   {
     tech: "JAVA", versions: ['3.6.3-jdk-11-openj9', '3.6-jdk-11-openj9', '3-jdk-11-openj9', '3.6.3-jdk-11-slim',
       '3.6.3-jdk-11', '3.6.3-slim']
-  }]
+    },
+    {
+      tech: "PHP", versions: ['7.4-cli', '7.4-fpm', '7.4.1-cli', '7.4.1-fpm', '7.4-buster', '7.4.1-buster', '7.4.1-cli-buster']
+    },
+    {
+      tech: "Node JS", versions: ['13.6.0-stretch', '13.6-stretch', '13.6.0-stretch-slim', '13.6-stretch-slim', '13.6.0-buster', '13.6-buster']
+    }
+  ]
   versionList = [];
 
 

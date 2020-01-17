@@ -120,7 +120,7 @@ export class DataService {
     this.jenkinsServerDetailsSource.next(data)
   }
 
-  OnSubmit() {
+  OnSubmit(): Observable<any> {
     let cmsData = new CMSData()
     cmsData.SessionID = sessionStorage.getItem('currentSessionId');
     cmsData.PartitonKey = sessionStorage.getItem('currentPartitionId');
@@ -146,7 +146,12 @@ export class DataService {
         })
       })
     })
+    let headers = new HttpHeaders();
+    headers = headers.set('Content-Type', 'application/json');
+    return this.http.post("http://localhost:56054/CloudMigration/", cmsData);
   }
+
+ 
 
   private handleError(error: HttpErrorResponse) {
     console.error('server error:', error);

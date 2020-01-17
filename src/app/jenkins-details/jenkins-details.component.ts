@@ -62,8 +62,8 @@ export class JenkinsDetailsComponent implements OnInit {
     this.jenkinData = new JenkinServerDetails();
     this.jenkinData.Jenkin_Server = values.jenkin_server;
     this.data.changeJenkinServerDetails(this.jenkinData);
-    this.data.OnSubmit();
-    this.btnDisable = true;
+    this.data.OnSubmit().subscribe(x => { });
+    //this.btnDisable = true;
   }
 
   onPrev() {
