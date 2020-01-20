@@ -1,4 +1,5 @@
 export class HostingDetails {
+  Subscription_ID: any;
   Host: any;
   Cluster_Created: any;
   ACR_Name: any;

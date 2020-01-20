@@ -16,7 +16,6 @@ export class ApplicationDetailsComponent implements OnInit {
 
 
   applicationDetailsForm = this.fb.group({
-    subscription_id: ['', Validators.required],
     technology: ['', Validators.required],
     version: ['', Validators.required],
     tag_name: ['', Validators.required],
@@ -24,7 +23,6 @@ export class ApplicationDetailsComponent implements OnInit {
 
   public appDetailsData;
   public navLinks;
-  public subscriptionList = [];
   public browserRefresh: boolean;
 
 
@@ -45,14 +43,7 @@ export class ApplicationDetailsComponent implements OnInit {
 
 
   constructor(private fb: FormBuilder, private router: Router, private data: DataService,
-    private adalSvc: MsAdalAngular6Service) {
-
-    let azureSubscriptionDetails = JSON.parse(sessionStorage.getItem('azureSubscriptionDetails'));
-    for (let sub of azureSubscriptionDetails.value) {
-      this.subscriptionList.push(sub.displayName + '(' + sub.subscriptionId + ')');
-    }
-
-  }
+    private adalSvc: MsAdalAngular6Service) {}
 
 
   ngOnInit() {
@@ -89,9 +80,6 @@ export class ApplicationDetailsComponent implements OnInit {
     return this.applicationDetailsForm.get('version');
   }
 
-  get subscription_id() {
-    return this.applicationDetailsForm.get('subscription_id');
-  }
 
   changeTechnology() {
     // this.technology.setValue(e.target.value, {
@@ -107,10 +95,7 @@ export class ApplicationDetailsComponent implements OnInit {
   }
 
   updateFormData() {
-    let subscription = (JSON.parse(sessionStorage.getItem('azureSubscriptionDetails'))).value;
-    let subscript_name = subscription.find(x => x.subscriptionId = this.appDetailsData.Subscription_ID).displayName
     this.applicationDetailsForm.patchValue({
-      subscription_id: subscript_name + '(' + this.appDetailsData.Subscription_ID + ')',
       technology: this.appDetailsData.Technology,
       version: this.appDetailsData.Version,
       tag_name: this.appDetailsData.Tag_Name,
@@ -118,10 +103,7 @@ export class ApplicationDetailsComponent implements OnInit {
   }
 
   onNext(values) {
-    sessionStorage.setItem('subscriptionId', ((values.subscription_id.split(': ')[0]).split('(')[1]).split(')')[0])
-    console.log(sessionStorage.getItem('subscriptionId'))
     this.appDetailsData = new AppDetails();
-    this.appDetailsData.Subscription_ID = ((values.subscription_id.split(': ')[0]).split('(')[1]).split(')')[0];
     this.appDetailsData.Technology = (values.technology).split(': ')[0];
     this.appDetailsData.Version = values.version.split(': ')[0];
     this.appDetailsData.Tag_Name = values.tag_name;

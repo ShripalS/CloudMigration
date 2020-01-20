@@ -1,17 +1,6 @@
 <form [formGroup]="applicationDetailsForm" class="app-Details-Form" (ngSubmit)="onNext(applicationDetailsForm.value)">
   <ul class="wrapper">
-    <li class="form-row">
-      <label>
-        Subscription Id:
-        <label style="color: red;">*</label>
-      </label>
-      <select class="custom-select" formControlName="subscription_id">
-        <option value="" disabled>Choose your subscription</option>
-        <option *ngFor="let subscrip of subscriptionList" [ngValue]="subscrip">{{subscrip}}</option>
-      </select>
-    </li>
-
-    <li class="form-row">
+   <li class="form-row">
       <label>
         Technology:
         <label style="color: red;">*</label>

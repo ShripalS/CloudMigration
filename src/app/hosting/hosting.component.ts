@@ -10,6 +10,7 @@ import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dial
 import { filter } from 'rxjs/operators';
 import { AzureService } from '../azure.service';
 import { MatIconRegistry } from '@angular/material';
+import { concat } from 'rxjs';
 
 @Component({
   selector: 'app-hosting',
@@ -19,19 +20,20 @@ import { MatIconRegistry } from '@angular/material';
 export class HostingComponent implements OnInit {
 
   hostingDetailsForm = this.fb.group({
+    subscription_id: ['', Validators.required],
     host: ['AKS', Validators.required],
     cluster_created: ['No', Validators.required],
     acr_name: ['', Validators.required],
     resource_group: ['', Validators.required],
     cluster: this.fb.group({
-      cluster_name: [''],
-      region: [''],
-      version: ['1.14.8'],
-      dns_name_prefix: [''],
-      node_count: [''],
-      node_size: [''],
-      service_principle_client_id: [''],
-      service_principle_client_secret: ['']
+      cluster_name: ['', Validators.required],
+      region: ['', Validators.required],
+      version: ['1.14.8', Validators.required],
+      dns_name_prefix: ['', Validators.required],
+      node_count: ['', Validators.required],
+      node_size: ['', Validators.required],
+      service_principle_client_id: ['', Validators.required],
+      service_principle_client_secret: ['', Validators.required]
       // pod_count : [''],
       // application_count : ['']
     })
@@ -46,7 +48,7 @@ export class HostingComponent implements OnInit {
   dialogRef: MatDialogRef<DialogDataExampleDialog>;
   registryDialogRef: MatDialogRef<DialogDataRegistryDialog>;
 
-  public hostingData;
+  public hostingData = null;
   public navLinks;
   public resourceGroupList = [];
   public subscriptionId;
@@ -56,6 +58,7 @@ export class HostingComponent implements OnInit {
   public resourceGroupCreation = 'none';
   public regionList = [];
   public nodeSizeList = [];
+  public subscriptionList = [];
 
   public acrFullDetails;
 
@@ -66,17 +69,10 @@ export class HostingComponent implements OnInit {
     private azureService: AzureService,
     private adalSvc: MsAdalAngular6Service, public dialog: MatDialog) {
 
-    this.azureService.getResourceGroupDetails().subscribe(resourceGroups => {
-      for (let resource of resourceGroups.value) {
-        this.resourceGroupList.push(resource.name);
-      }
-    })
-
-    this.azureService.getLocationForSubscription().subscribe(regions => {
-      for (let region of regions.value) {
-        this.regionList.push({ regionName: region.name, regionDisplayName: region.displayName });
-      }
-    })
+    let azureSubscriptionDetails = JSON.parse(sessionStorage.getItem('azureSubscriptionDetails'));
+    for (let sub of azureSubscriptionDetails.value) {
+      this.subscriptionList.push(sub.displayName + '(' + sub.subscriptionId + ')');
+    }
   }
 
 
@@ -91,6 +87,8 @@ export class HostingComponent implements OnInit {
 
     this.data.currenthostingDetailsData.subscribe(data => this.hostingData = data)
     if (this.hostingData !== null) {
+      this.getResourceGroupList();
+      this.getLocationDetails();
       this.azureService.getACRList(this.hostingData.Resource_Group).subscribe(acrList => {
         for (let acr of acrList.value) {
           this.acrList.push(acr.name);
@@ -141,6 +139,32 @@ export class HostingComponent implements OnInit {
     return this.hostingDetailsForm.get('cluster.region');
   }
 
+  chooseSubscription(values) {
+    sessionStorage.setItem('subscriptionId', ((values.subscription_id.split(': ')[0]).split('(')[1]).split(')')[0])
+    console.log(sessionStorage.getItem('subscriptionId'))
+
+    this.getResourceGroupList();
+
+    this.getLocationDetails();
+
+  }
+
+  getResourceGroupList() {
+    this.azureService.getResourceGroupDetails().subscribe(resourceGroups => {
+      for (let resource of resourceGroups.value) {
+        this.resourceGroupList.push(resource.name);
+      }
+    })
+  }
+
+  getLocationDetails() {
+    this.azureService.getLocationForSubscription().subscribe(regions => {
+      for (let region of regions.value) {
+        this.regionList.push({ regionName: region.name, regionDisplayName: region.displayName });
+      }
+    })
+  }
+
   changeResourceGroup() {
     console.log(this.resource_group.value);
     this.acrList = [];
@@ -166,7 +190,8 @@ export class HostingComponent implements OnInit {
     // })
     if (this.hostingDetailsForm.controls.cluster_created.value === '2: No'
       || this.hostingDetailsForm.controls.cluster_created.value === 'No'
-      || this.hostingDetailsForm.controls.cluster_created.value === '2') {
+      || this.hostingDetailsForm.controls.cluster_created.value === '2')
+    {
       this.isClusterCreated = true;
       this.clusterList = [];
       this.hostingDetailsForm.patchValue({
@@ -174,10 +199,24 @@ export class HostingComponent implements OnInit {
           cluster_name: ''
         }
       })
+      this.hostingDetailsForm.get('cluster.region').setValidators(Validators.required);
+      this.hostingDetailsForm.get('cluster.version').setValidators(Validators.required);
+      this.hostingDetailsForm.get('cluster.dns_name_prefix').setValidators(Validators.required);
+      this.hostingDetailsForm.get('cluster.node_count').setValidators(Validators.required);
+      this.hostingDetailsForm.get('cluster.node_size').setValidators(Validators.required);
+      this.hostingDetailsForm.get('cluster.service_principle_client_id').setValidators(Validators.required);
+      this.hostingDetailsForm.get('cluster.service_principle_client_secret').setValidators(Validators.required);
     }
     else {
       this.isClusterCreated = false;
       this.clusterList = [];
+      this.hostingDetailsForm.get('cluster.region').setErrors(null);
+      this.hostingDetailsForm.get('cluster.version').setErrors(null);
+      this.hostingDetailsForm.get('cluster.dns_name_prefix').setErrors(null);
+      this.hostingDetailsForm.get('cluster.node_count').setErrors(null);
+      this.hostingDetailsForm.get('cluster.node_size').setErrors(null);
+      this.hostingDetailsForm.get('cluster.service_principle_client_id').setErrors(null);
+      this.hostingDetailsForm.get('cluster.service_principle_client_secret').setErrors(null);
       this.azureService.getClusterList(this.resource_group.value).subscribe(clusterList => {
         for (let cluster of clusterList.value) {
           this.clusterList.push(cluster.name);
@@ -190,13 +229,19 @@ export class HostingComponent implements OnInit {
     this.nodeSizeList = [];
     this.azureService.getVMSizes().subscribe(vmsize => {
       let vm = ((vmsize.value).filter(x => x.resourceType === 'virtualMachines'))
-      console.log(this.region.value);
-      let region = (this.regionList.find(x => x.regionDisplayName === this.region.value)).regionName
-      let vmLocation = (vm.filter(x => x.locations.includes(region)));
-      for (let i of vmLocation) {
-        if (i.restrictions.reasonCode !== 'NotAvailableForSubscription') {
-          this.nodeSizeList.push({ name: i.name, size: i.size, tier: i.tier })
+      let regionValue = this.region.value;
+      if (regionValue !== null && regionValue !== "" && typeof regionValue !== typeof undefined && this.regionList.length > 0)
+      {
+        let region = (this.regionList.find(x => x.regionDisplayName === regionValue)).regionName
+        let vmLocation = (vm.filter(x => x.locations.includes(region)));
+        for (let i of vmLocation) {
+          if (i.restrictions.reasonCode !== 'NotAvailableForSubscription') {
+            this.nodeSizeList.push({ name: i.name, size: i.size, tier: i.tier })
+          }
         }
+      }
+      if (this.hostingData !== null) {
+        this.updateFormData();
       }
       console.log(this.nodeSizeList)
     })
@@ -205,8 +250,11 @@ export class HostingComponent implements OnInit {
 
 
   updateFormData() {
+    let subscription = (JSON.parse(sessionStorage.getItem('azureSubscriptionDetails'))).value;
+    let subscript_name = subscription.find(x => x.subscriptionId = this.hostingData.Subscription_ID).displayName
     console.log(this.hostingData);
     this.hostingDetailsForm.patchValue({
+      subscription_id: subscript_name + '(' + this.hostingData.Subscription_ID + ')',
       host: this.hostingData.Host,
       cluster_created: this.hostingData.Cluster_Created,
       acr_name: this.hostingData.ACR_Name,
@@ -259,6 +307,7 @@ export class HostingComponent implements OnInit {
   onNext(values) {
     console.log(values)
     this.hostingData = new HostingDetails();
+    this.hostingData.Subscription_ID = ((values.subscription_id.split(': ')[0]).split('(')[1]).split(')')[0];
     this.hostingData.Host = values.host;
     this.hostingData.Cluster_Created = values.cluster_created;
     this.hostingData.ACR_Name = values.acr_name;
