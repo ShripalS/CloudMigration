@@ -97,6 +97,7 @@ export class HostingComponent implements OnInit {
           || this.hostingData.Cluster_Created === 'No'
           || this.hostingData.Cluster_Created === '2') {
           this.isClusterCreated = true;
+          this.changeRegion();
           this.updateFormData();
         }
         else {
@@ -108,7 +109,6 @@ export class HostingComponent implements OnInit {
             this.updateFormData();
           })
         }
-        this.changeRegion()
       })
     }
   }
@@ -240,9 +240,9 @@ export class HostingComponent implements OnInit {
           }
         }
       }
-      if (this.hostingData !== null) {
-        this.updateFormData();
-      }
+      //if (this.hostingData !== null) {
+      //  this.updateFormData();
+      //}
       console.log(this.nodeSizeList)
     })
   }

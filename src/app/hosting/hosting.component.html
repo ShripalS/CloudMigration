@@ -110,7 +110,7 @@
           Node Size:
           <label style="color: red;">*</label>
         </label>
-        <select class="custom-select" (change)="changeNodeSize($event)" formControlName="node_size">
+        <select class="custom-select"  formControlName="node_size">
           <option value="" disabled>Choose your node size</option>
           <option *ngFor="let nodeSize of nodeSizeList" [ngValue]="nodeSize">{{nodeSize.name}}</option>
         </select>

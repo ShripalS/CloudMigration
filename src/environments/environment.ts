@@ -17,7 +17,8 @@ export const environment = {
     'management':'https://management.azure.com/' //'https://management.azure.com/':'54f42fd9-805d-48a6-b6f7-7b591bd7489a''
     // 'https://management.azure.com/subscriptions?api-version=2019-06-01' : 'https://management.azure.com/'
     //"http://localhost:4200/authenticate": 'a4c3a58f-33dc-43f2-8a00-c53bab1e68c2' // Note, this is an object, you could add several things here
-  }
+  },
+  cmsapiendpoint: "http://cmsapiaks.azurewebsites.net/"
 };
 
 /*

@@ -7,12 +7,13 @@ import {
 } from '@angular/common/http';
 import { AuthService } from './auth.service'
 import { Observable } from 'rxjs';
+import { environment } from '../environments/environment';
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
   constructor(public auth: AuthService) {}
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     console.log(request)
-    if (request.url !== "https://api.github.com/" && request.url !== "http://localhost:56054/CloudMigration/" &&  request.url !== "http://localhost:56054/CloudMigration/GetStatus") {
+    if (request.url !== "https://api.github.com/" && request.url !== environment.cmsapiendpoint + "CloudMigration/" && request.url !== environment.cmsapiendpoint + "CloudMigration/GetStatus") {
       request = request.clone({
         setHeaders: {
           'Authorization': `Bearer ${this.auth.getToken()}`,
@@ -32,7 +33,7 @@ export class TokenInterceptor implements HttpInterceptor {
       });
     }
 
-    else if (request.url === "http://localhost:56054/CloudMigration/") {
+    else if (request.url === environment.cmsapiendpoint + "CloudMigration/") {
       request = request.clone({
         setHeaders: {
           'Content-Type': 'application/json'
