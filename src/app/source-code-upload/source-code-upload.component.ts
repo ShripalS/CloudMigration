@@ -25,6 +25,7 @@ export class SourceCodeUploadComponent implements OnInit {
     source_code_repository: ['', Validators.required],
     application_name: ['', Validators.required],
     application_type: ['', Validators.required],
+    application_folder: ['', Validators.required],
     url: ['', Validators.required],
     username: ['', Validators.required],
     password: ['', Validators.required]
@@ -38,9 +39,8 @@ export class SourceCodeUploadComponent implements OnInit {
 
   ngOnInit() {
 
-    //this.data.getStatus().subscribe(x => {x
-    //  console.log(x)
-    //});
+    //this.data.checkapiget()
+    this.data.getStatus();
     this.browserRefresh = browserRefresh;
     // if(!browserRefresh){
     this.data.currentNavLinkData.subscribe(data => {
@@ -83,6 +83,7 @@ export class SourceCodeUploadComponent implements OnInit {
       source_code_repository: this.sourceCodeData.Source_Code_Repository,
       application_name: this.sourceCodeData.Application_Name,
       application_type: this.sourceCodeData.Application_Type,
+      application_folder: this.sourceCodeData.Application_Folder,
       url: this.sourceCodeData.URL,
       username: this.sourceCodeData.Username,
       password: this.sourceCodeData.Password
@@ -95,6 +96,7 @@ export class SourceCodeUploadComponent implements OnInit {
     this.sourceCodeData.Source_Code_Repository = values.source_code_repository.split(': ')[0];
     this.sourceCodeData.Application_Name = values.application_name;
     this.sourceCodeData.Application_Type = values.application_type;
+    this.sourceCodeData.Application_Folder = values.application_folder;
     this.sourceCodeData.URL = values.url;
     this.sourceCodeData.Username = values.username;
     this.sourceCodeData.Password = values.password;

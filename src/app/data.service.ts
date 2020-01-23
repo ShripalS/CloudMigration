@@ -160,7 +160,11 @@ export class DataService {
       }
     }).subscribe(data => console.log(data))  
   }
- 
+
+
+  checkapiget(): Observable<any> {
+    return this.http.get(environment.cmsapiendpoint+"CloudMigration/")
+  }
 
   private handleError(error: HttpErrorResponse) {
     console.error('server error:', error);

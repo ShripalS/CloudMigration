@@ -27,15 +27,15 @@ export class AuthenticateComponent implements OnInit {
 
     });
 
-    //this.adalSvc.acquireToken('management').subscribe(token=> {
-    //  localStorage.setItem('token',token)
-    //  this.azureService.getSubscriptionDetails().subscribe(azureSubscriptions =>{
-    //    sessionStorage.setItem('azureSubscriptionDetails',JSON.stringify(azureSubscriptions));
-    //      this.navLinks[0].disable = false;
-    //      this.data.changeNavLinkData(this.navLinks);
+    this.adalSvc.acquireToken('management').subscribe(token=> {
+      localStorage.setItem('token',token)
+      this.azureService.getSubscriptionDetails().subscribe(azureSubscriptions =>{
+        sessionStorage.setItem('azureSubscriptionDetails',JSON.stringify(azureSubscriptions));
+          this.navLinks[0].disable = false;
+          this.data.changeNavLinkData(this.navLinks);
           this.router.navigate(['/source-code']);
-    //  });
-    //});
+      });
+    });
   }
 
 }

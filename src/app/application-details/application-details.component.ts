@@ -26,7 +26,7 @@ export class ApplicationDetailsComponent implements OnInit {
   public browserRefresh: boolean;
 
 
-  technologyList = [{ tech: ".Net", versions: ['3.5', '4.6.2', '4.7.1', '4.7.2', '4.7', '4.8'] },
+  technologyList = [{ tech: ".Net", versions: ['3.5', '4.6.2', '4.7.1', '4.7.2', '4.7', '4.8', 'CORE 3.0', 'CORE 3.1'] },
   {
     tech: "JAVA", versions: ['3.6.3-jdk-11-openj9', '3.6-jdk-11-openj9', '3-jdk-11-openj9', '3.6.3-jdk-11-slim',
       '3.6.3-jdk-11', '3.6.3-slim']
